@@ -1,6 +1,7 @@
 import {
   ConflictException,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -65,6 +66,9 @@ export class AuthService {
       },
     );
 
+    savedUser.access_token = tokens.access_token;
+    savedUser.refresh_token = tokens.refresh_token;
+
     return plainToInstance(UserResponseDto, savedUser, {
       excludeExtraneousValues: true,
     });
@@ -91,12 +95,30 @@ export class AuthService {
     }
 
     const tokens = await this.generateTokens(user);
+
+    await this.userRepository.update(
+      { id: user.id },
+      {
+        access_token: tokens.access_token,
+        refresh_token: tokens.refresh_token,
+        updated_at: Math.floor(Date.now() / 1000),
+      },
+    );
+
     user.access_token = tokens.access_token;
     user.refresh_token = tokens.refresh_token;
 
     return plainToInstance(UserResponseDto, user, {
       excludeExtraneousValues: true,
     });
+  }
+
+  async getProfile(userId: string): Promise<UserResponseDto> {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return plainToInstance(UserResponseDto, user);
   }
 
   private async generateTokens(user: { id: string; email: string }) {

@@ -22,6 +22,18 @@ export class UserResponseDto {
   first_name: string;
 
   @ApiProperty({
+    example: '12Bi',
+  })
+  @Expose()
+  access_token: string;
+
+  @ApiProperty({
+    example: '12Bi',
+  })
+  @Expose()
+  refresh_token: string;
+
+  @ApiProperty({
     example: 'Negi',
   })
   @Expose()

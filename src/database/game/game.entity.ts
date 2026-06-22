@@ -26,21 +26,21 @@ export class Game {
 
   @Column({
     unique: true,
-    length: 10,
+    length: 500,
   })
   room_code: string;
 
   @ManyToOne(() => User, {
-    nullable: false,
+    nullable: true,
   })
   @JoinColumn({ name: 'white_player_id' })
-  white_player: User;
+  white_player: User | null;
 
   @ManyToOne(() => User, {
     nullable: true,
   })
   @JoinColumn({ name: 'black_player_id' })
-  black_player: User;
+  black_player: User | null;
 
   @ManyToOne(() => User, {
     nullable: true,
