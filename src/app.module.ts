@@ -27,11 +27,6 @@ import { LeaderboardModule } from './leaderboard/leaderboard.module';
 
       autoLoadEntities: true,
 
-      ssl:
-        process.env.NODE_ENV === 'production'
-          ? { rejectUnauthorized: false }
-          : false,
-
       synchronize: false,
 
       migrationsRun: false,
