@@ -57,6 +57,10 @@ export class RoomResponseDto {
   @ApiProperty()
   @Expose()
   updated_at: number;
+
+  @ApiProperty({ type: [String] })
+  @Expose()
+  moves: string[];
 }
 
 export class PaginatedRoomsDto {

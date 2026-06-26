@@ -257,7 +257,10 @@ export class PlayService {
       throw new BadRequestException('Illegal move');
     }
 
-    await this.saveMoveToDatabase(payload.roomId, move.san);
+    const updatedMoves = await this.saveMoveToDatabase(
+      payload.roomId,
+      move.san,
+    );
 
     room.currentTurn = game.turn();
 
@@ -276,6 +279,7 @@ export class PlayService {
       checkmate: game.isCheckmate(),
       draw: game.isDraw(),
       gameOver: isOver,
+      moves: updatedMoves,
     });
 
     return {
@@ -286,18 +290,19 @@ export class PlayService {
   private async saveMoveToDatabase(
     roomId: string,
     moveSan: string,
-  ): Promise<void> {
+  ): Promise<string[]> {
     const dbRoom = await this.gameRepository.findOne({
       where: { id: roomId },
     });
 
-    if (!dbRoom) return;
+    if (!dbRoom) return [];
 
     const currentMoves = dbRoom.moves || [];
     currentMoves.push(moveSan);
     dbRoom.moves = currentMoves;
     dbRoom.updated_at = Math.floor(Date.now() / 1000);
     await this.gameRepository.save(dbRoom);
+    return currentMoves;
   }
 
   private async updateGameResult(roomId: string, game: Chess): Promise<void> {
