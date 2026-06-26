@@ -52,7 +52,13 @@ export class Game {
     nullable: true,
   })
   @JoinColumn({ name: 'winner_id' })
-  winner: User;
+  winner: User | null;
+
+  @Column({
+    type: 'simple-array',
+    nullable: true,
+  })
+  moves: string[];
 
   @Column({
     type: 'enum',

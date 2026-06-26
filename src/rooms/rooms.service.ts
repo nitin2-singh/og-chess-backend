@@ -119,4 +119,24 @@ export class RoomsService {
       }),
     };
   }
+
+  async getRoomById(roomId: string): Promise<RoomResponseDto> {
+    const room = await this.gameRepository.findOne({
+      where: { room_code: roomId },
+      relations: {
+        white_player: true,
+        black_player: true,
+        created_by: true,
+        winner: true,
+      },
+    });
+
+    if (!room) {
+      throw new NotFoundException('Room not found');
+    }
+
+    return plainToInstance(RoomResponseDto, room, {
+      excludeExtraneousValues: true,
+    });
+  }
 }

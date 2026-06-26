@@ -4,6 +4,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   Query,
 } from '@nestjs/common';
@@ -32,5 +33,11 @@ export class RoomsController {
     @CurrentUser() user: JwtPayload,
   ): Promise<PaginatedRoomsDto> {
     return this.roomsService.getRooms(user.sub, query);
+  }
+
+  @Get(':id')
+  getRoomById(@Param('id') id: string): Promise<RoomResponseDto> {
+    console.log('id', id);
+    return this.roomsService.getRoomById(id);
   }
 }
