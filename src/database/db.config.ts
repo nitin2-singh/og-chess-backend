@@ -18,6 +18,11 @@ export default new DataSource({
 
   migrations: ['src/database/migrations/*.ts'],
 
+  ssl:
+    process.env.NODE_ENV === 'production'
+      ? { rejectUnauthorized: false }
+      : false,
+
   synchronize: false,
 
   logging: true,
