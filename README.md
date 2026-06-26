@@ -1,98 +1,98 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# OG Chess Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+OG Chess Backend is a progressive Node.js server built with **NestJS**, **TypeORM**, **PostgreSQL**, and **Socket.io**. It handles secure user authentication, game room matchmaking, real-time move validation (via `chess.js`), score rankings, and live gameplay WebSockets.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## Technology Stack
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **Framework**: NestJS (v11+)
+- **Database**: PostgreSQL (managed via TypeORM)
+- **WebSockets**: Socket.io
+- **Auth**: JWT (JSON Web Tokens) with Passport strategies
+- **Game Engine**: `chess.js` for secure server-side validation
 
-## Project setup
+---
 
+## Prerequisites
+
+Ensure you have the following installed:
+- **Node.js** (v18 or higher recommended)
+- **npm** (v10 or higher)
+- **Docker** (optional, for local PostgreSQL containerization)
+
+---
+
+## Step-by-Step Local Setup
+
+### 1. Clone the repository and install dependencies
+Navigate to the backend directory and run:
 ```bash
-$ npm install
+npm install
 ```
 
-## Compile and run the project
+### 2. Environment Variables Configuration
+Create a `.env` file in the root of the `og-chess-backend` folder:
+```env
+# Application Port
+PORT=3001
 
-```bash
-# development
-$ npm run start
+# PostgreSQL Database Connection
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=postgres
+DB_DATABASE=nest_db
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+# Authentication Secrets
+JWT_SECRET=your-super-long-secret
+JWT_ACCESS_EXPIRES_IN=1d
+JWT_REFRESH_EXPIRES_IN=7d
 ```
 
-## Run tests
-
+### 3. Spin up local PostgreSQL (Docker Compose)
+If you don't have a PostgreSQL instance running locally, you can spin up the pre-configured container using Docker:
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+docker compose up -d
 ```
+This container runs PostgreSQL on port `5432` with username/password as `postgres`.
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
+### 4. Compile and Run the Server
+Start the NestJS server in development watch mode:
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm run start:dev
 ```
+The server will boot up and listen for requests on `http://localhost:3001`.
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## Available Scripts
 
-Check out a few resources that may come in handy when working with NestJS:
+- **`npm run start:dev`**: Runs the application in development mode with hot-reloading.
+- **`npm run build`**: Compiles the TypeScript code into JavaScript files in the `dist` directory.
+- **`npm run start:prod`**: Runs the compiled project in production mode.
+- **`npm run lint`**: Inspects all code for ESLint style and type safety issues.
+- **`npm run test`**: Runs unit tests.
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+---
 
-## Support
+## Key Features & Endpoints
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### REST HTTP Endpoints
+- **Authentication (`/auth`)**:
+  - `POST /auth/signup` - Register a new user.
+  - `POST /auth/login` - Authorize credentials and retrieve access/refresh tokens.
+  - `GET /auth/me` - Retrieve the profile of the current authenticated user.
+- **Matchmaking / Rooms (`/rooms`)**:
+  - `POST /rooms` - Host/create a new game room (select White, Black, or Random color).
+  - `GET /rooms` - Fetch paginated and filterable game rooms.
+  - `GET /rooms/:id` - Fetch room details (player entities, FEN position, game status).
+- **Standings (`/leaderboard`)**:
+  - `GET /leaderboard` - Fetch paginated standings of top players ranked by wins (1 point per win), supporting name/email filtering.
 
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### Socket.io WebSockets Gateway
+The gateway handles live event bindings:
+- **`join-room`**: Connects the player to a room. Assigns them to their database-configured color, replays previous moves to restore current FEN state on reconnect, and triggers opponent warnings.
+- **`move`**: Validates a move on the server. Checks if it's the player's turn, executes the move in `chess.js`, persists the move to the database, checks for checkmate/draw states, and broadcasts `move-made` to both players.
+- **`resign`**: Ends the match instantly, updating the database record with the winner.
+- **`offer-draw` / `accept-draw` / `decline-draw`**: Formal draw agreement flow between players.
